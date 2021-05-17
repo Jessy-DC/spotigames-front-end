@@ -1,25 +1,46 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [games, setGames] = useState();
+
+      useEffect(() => {
+          const getGames = async () => {
+            try {
+              const responseData = await fetch(
+                  'http://localhost:5000/api/games', {
+                      method: 'GET',
+                      body: null,
+                      headers: {}
+                  }
+              );
+              let gamesFounded = await responseData.json();
+              setGames(gamesFounded);
+            } catch (err) {}
+          };
+        getGames();
+      }, [])
+
+    if (games && games.length > 0) {
+        return (
+            <div className="App">
+                <p>Welcome !</p>
+                <ul>
+                    {games.map((id, game) => {
+                        return <li id={id}>{game.title}</li>
+                    })}
+                </ul>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <p>No games here...</p>
+            </div>
+        )
+    }
+
+
 }
 
 export default App;
