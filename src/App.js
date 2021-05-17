@@ -1,45 +1,45 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import './App.css';
 
 function App() {
-  const [games, setGames] = useState();
+  const [games, setGames] = useState(null);
 
-      useEffect(() => {
-          const getGames = async () => {
-            try {
-              const responseData = await fetch(
-                  'http://localhost:5000/api/games', {
-                      method: 'GET',
-                      body: null,
-                      headers: {}
-                  }
-              );
-              let gamesFounded = await responseData.json();
-              setGames(gamesFounded);
-            } catch (err) {}
-          };
-        getGames();
+  const getGames = useCallback (
+      async (url, method = 'GET') => {
+          try {
+              const response = await fetch(url, {
+                  method,
+              });
+
+              const responseData = await response.json();
+
+              return responseData;
+          } catch (err) {
+          }
       }, [])
 
-    if (games && games.length > 0) {
-        return (
-            <div className="App">
-                <p>Welcome !</p>
-                <ul>
-                    {games.map((id, game) => {
-                        return <li id={id}>{game.title}</li>
-                    })}
-                </ul>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <p>No games here...</p>
-            </div>
-        )
-    }
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                const responseData = await getGames(
+                    'http://localhost:5000/api/games'
+                );
+                setGames(responseData.games);
+            } catch (err) {}
+        };
+        fetchGames();
+    }, [getGames]);
 
+    return (
+        <div className="App">
+            <p>Welcome !</p>
+            <ul>
+                {games && games.map((game) => {
+                    return <li id={game.id}>{game.title}</li>
+                })}
+            </ul>
+        </div>
+    )
 
 }
 
