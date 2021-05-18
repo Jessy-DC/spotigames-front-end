@@ -1,55 +1,43 @@
 import React, {useEffect, useState, useCallback} from 'react';
+import {useHttpClient} from "./hooks/http-hook";
+
 import './App.css';
 
 function App() {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [games, setGames] = useState(null);
   const [newGame, setNewGame] = useState('');
   const [id, setId] = useState(3);
 
-  const getGames = useCallback (
-      async (url, method = 'GET') => {
-          try {
-              const response = await fetch(url, {
-                  method,
-              });
-
-              const responseData = await response.json();
-
-              return responseData;
-          } catch (err) {
-          }
-      }, [])
-
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const responseData = await getGames(
+                const responseData = await sendRequest(
                     'http://localhost:5000/api/games'
                 );
+
                 setGames(responseData.games);
             } catch (err) {}
         };
         fetchGames();
-    }, [getGames]);
+    }, [sendRequest]);
 
-  const addGame = async () => {
+  const addGame = async event => {
+      event.preventDefault();
       try {
-          let response = await fetch(
-              'http://localhost:5000/api/games', {
-                  method: 'POST',
-                  headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                      id: id,
-                      title: newGame
-                  })
-              }
-          );
+          let response = await sendRequest(
+              'http://localhost:5000/api/games',
+              'POST',
+              JSON.stringify({
+                  id: id,
+                  title: newGame
+              }),
+              {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          });
 
-          let responseData = await response.json();
-          setGames(responseData.games);
+          setGames(response.games);
       } catch (err) {}
 
       setId(id + 1);
@@ -63,8 +51,11 @@ function App() {
     return (
         <div className="App">
             <p>Welcome !</p>
-            <input type="text" value={newGame} onChange={handleChange} />
-            <button onClick={addGame}>Add game</button>
+            <form method='POST' onSubmit={addGame}>
+                <input type="text" value={newGame} onChange={handleChange} />
+                <button type="submit">Add game</button>
+            </form>
+
             <ul>
                 {games && games.map((game) => {
                     return <li id={game.id}>{game.title}</li>
