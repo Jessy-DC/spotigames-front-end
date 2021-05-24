@@ -2,6 +2,8 @@ import React, {useEffect, useState, useCallback} from 'react';
 import {useHttpClient} from "./hooks/http-hook";
 
 import './App.css';
+import './css/spotigames.css';
+import Navbar from "./components/navbar";
 
 function App() {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -50,6 +52,7 @@ function App() {
 
     return (
         <div className="App">
+            <Navbar />
             <p>Welcome !</p>
             <form method='POST' onSubmit={addGame}>
                 <input type="text" value={newGame} onChange={handleChange} />
