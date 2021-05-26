@@ -7,9 +7,13 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="navbar-brand">
-                <a className="navbar-item" href="https://bulma.io">
-                    <img src="https://bulma.io/images/bulma-logo-white.png" width="112" height="28" alt="logo" />
-                </a>
+                <div className="navbar-item">
+                    <NavLink to="/">
+                        <span>
+                            <ion-icon name="home-outline">Home</ion-icon>
+                        </span>
+                    </NavLink>
+                </div>
             </div>
             <div className="navbar-end">
                 <div className="navbar-item">

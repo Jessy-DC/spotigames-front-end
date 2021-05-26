@@ -2,6 +2,7 @@
     text-decoration: none;
     color: white;
     letter-spacing: 1.5px;
+    transition-duration: 0.5s;
 }
 
 .navbar a:hover {

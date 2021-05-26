@@ -1,0 +1,13 @@
+h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.field {
+    width: 50%;
+    margin: 40px auto;
+}
+
+.control {
+    text-align: center;
+}
