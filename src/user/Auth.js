@@ -8,38 +8,36 @@ import {useForm} from "../hooks/form-hook";
 const Auth = () => {
     const auth = useContext(AuthContext);
     const {isLoginMode, setIsLoginMode} = useState(true);
-    const {isLoading, error, sendRequest, clearError} = useHttpClient();
+    const {sendRequest} = useHttpClient();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [formState, inputHandler, setFormData] = useForm({
-        email: {
-            value: '',
-            isValid: false
-        },
-        password: {
-            value: '',
-            isValid: false
-        }
-    });
+    const inputEmailHandler = event => {
+        setEmail(event.target.value);
+    }
+
+    const inputPasswordHandler = event => {
+        setPassword(event.target.value);
+    }
 
     const authSubmitHandler = async event => {
         event.preventDefault();
 
-        if (isLoginMode) {
-            try {
-                const responseData = await sendRequest(
-                    'http://localhost:5000/api/users/login',
-                    'POST',
-                    JSON.stringify({
-                        email: formState.inputs.email.value,
-                        password: formState.inputs.password.value
-                    }),
-                    {
-                        'Content-Type': 'application/json'
-                    }
-                );
-                auth.login(responseData.userId, responseData.token);
-            } catch (err) {}
-        }
+        try {
+            const responseData = await sendRequest(
+                'http://localhost:5000/api/users/login',
+                'POST',
+                JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                {
+                    'Content-Type': 'application/json'
+                }
+            );
+            auth.login(responseData.userId, responseData.token);
+        } catch (err) {}
+
     }
 
     return (
@@ -47,7 +45,7 @@ const Auth = () => {
             <h2>Please login</h2>
             <div className="field">
                 <p className="control has-icons-left has-icons-right">
-                    <input onChange={inputHandler} className="input is-primary" type="email" placeholder="Email" />
+                    <input onChange={inputEmailHandler} className="input is-primary" type="email" placeholder="Email" />
                     <span className="icon is-left">
                       <ion-icon name="mail-outline">Email</ion-icon>
                     </span>
@@ -55,7 +53,7 @@ const Auth = () => {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input onChange={inputHandler} className="input is-primary" type="password" placeholder="Password" />
+                    <input onChange={inputPasswordHandler} className="input is-primary" type="password" placeholder="Password" />
                     <span className="icon is-small is-left">
                       <i className="fas fa-lock"></i>
                     </span>
