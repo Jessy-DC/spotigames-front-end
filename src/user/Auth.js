@@ -55,7 +55,7 @@ const Auth = () => {
                 <p className="control has-icons-left">
                     <input onChange={inputPasswordHandler} className="input is-primary" type="password" placeholder="Password" />
                     <span className="icon is-small is-left">
-                      <i className="fas fa-lock"></i>
+                      <ion-icon name="lock-closed-outline">Password</ion-icon>
                     </span>
                 </p>
             </div>
