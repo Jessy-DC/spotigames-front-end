@@ -14,6 +14,13 @@ const Navbar = () => {
                         </span>
                     </NavLink>
                 </div>
+                <div className="navbar-item">
+                    <NavLink to="/games">
+                        <span>
+                            Games
+                        </span>
+                    </NavLink>
+                </div>
             </div>
             <div className="navbar-end">
                 <div className="navbar-item">
