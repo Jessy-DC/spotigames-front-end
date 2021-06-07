@@ -1,9 +1,11 @@
 import React, {useContext, useState} from 'react';
+import { useHistory } from 'react-router-dom'
 
 import './Auth.css'
 import {AuthContext} from "../context/auth-context";
 import {useHttpClient} from "../hooks/http-hook";
 import {useForm} from "../hooks/form-hook";
+
 
 const Auth = () => {
     const auth = useContext(AuthContext);
@@ -11,6 +13,8 @@ const Auth = () => {
     const {sendRequest} = useHttpClient();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const history = useHistory();
 
     const inputEmailHandler = event => {
         setEmail(event.target.value);
@@ -36,6 +40,7 @@ const Auth = () => {
                 }
             );
             auth.login(responseData.userId, responseData.token);
+            history.push('/');
         } catch (err) {}
 
     }
