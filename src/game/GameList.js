@@ -1,27 +1,24 @@
 import React from 'react';
-
+import {connect} from 'react-redux';
 import GameItem from "./GameItem";
 
-const GameList = props => {
-    if (!props.items) {
-        return <div>
-            <article className="message">
-                <div className="message-body">
-                    No games found, please come back later !
-                </div>
-            </article>
-        </div>
-    } else {
-        return <ul>
-            {props.items.map((game) => {
-                return <GameItem
-                    key={game.id}
-                    id={game.id}
-                    title={game.title}
-                />
-            })}
-        </ul>
+const GameList = ({games}) => (
+    <ul>
+        {games.map((game, index) => (
+            <GameItem key={index} {...game}  />
+        ))
+        }
+    </ul>
+)
+
+const mapStateToProps = state => {
+    return {
+        games : state.games
     }
 }
 
-export default GameList;
+const GamesList = connect(
+    mapStateToProps
+)(GameList);
+
+export default GamesList;

@@ -4,10 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {createStore} from 'redux';
+import {Provider} from 'react-redux'
+import thunk from "redux-thunk";
+import {applyMiddleware} from "redux";
+import {createLogger} from "redux-logger/src";
+
+import gamesApp from './reducers'
+
+//Middleware logger redux
+const logger = createLogger();
+
+const store = createStore(gamesApp, applyMiddleware(thunk, logger))
+
+console.log("INITIAL STATE REDUX" , store.getState())
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Provider store={store}>
+        <App />
+    </Provider>,
   document.getElementById('root')
 );
 
