@@ -9,9 +9,9 @@ export function getAllGamesAPI() {
             type :GET_GAMES_START,
             payload: {}
         })
-
+        console.log('test')
         try {
-            const url = `'http://localhost:5000/api/games/'`
+            const url = `http://localhost:5000/api/games/`
             const response = await fetch(url, {
                 method : 'GET',
             })

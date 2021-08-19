@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import GameItem from "./GameItem";
+import {GET_GAMES_START, getAllGamesAPI} from "../actions/games";
 
 const GameList = ({games}) => (
     <ul>
@@ -12,13 +13,14 @@ const GameList = ({games}) => (
 )
 
 const mapStateToProps = state => {
+    let games = state.gamesAPI.games;
     return {
-        games : state.games
+        games : games
     }
 }
 
-const GamesList = connect(
+const VisibleGamesList = connect(
     mapStateToProps
 )(GameList);
 
-export default GamesList;
+export default VisibleGamesList;

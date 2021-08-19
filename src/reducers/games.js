@@ -13,10 +13,9 @@ function getInitialState(){
 
 function gamesAPI(state, action){
     if (!state) {
-        state = getAllGamesAPI();
+        state = getInitialState();
     }
     switch (action.type) {
-
         case GET_GAMES_START:
             return {
                 ...state,

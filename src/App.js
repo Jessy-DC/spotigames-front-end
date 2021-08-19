@@ -9,24 +9,25 @@ import { useAuth } from "./hooks/auth-hook";
 import Auth from "./user/Auth";
 import GameList from "./game/GameList";
 import {useHttpClient} from "./hooks/http-hook";
+import VisibleGamesList from "./game/GameList";
 
 function App() {
     const { token, login, logout, userId } = useAuth();
     const [games, setGames] = useState();
     const {sendRequest} = useHttpClient();
 
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const responseData = await sendRequest(
-                    'http://localhost:5000/api/games/',
-                );
-                console.log(responseData.games);
-                setGames(responseData.games)
-            } catch (err) {}
-        }
-        fetchGames()
-    }, [sendRequest])
+    // useEffect(() => {
+    //     const fetchGames = async () => {
+    //         try {
+    //             const responseData = await sendRequest(
+    //                 'http://localhost:5000/api/games/',
+    //             );
+    //             console.log(responseData.games);
+    //             setGames(responseData.games)
+    //         } catch (err) {}
+    //     }
+    //     fetchGames()
+    // }, [sendRequest])
 
     let routes = (
         <Switch>
@@ -34,7 +35,7 @@ function App() {
                 <Auth />
             </Route>
             <Route path="/games">
-                <GameList items={games} />
+                <VisibleGamesList />
             </Route>
         </Switch>
     );
